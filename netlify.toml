@@ -1,0 +1,10 @@
+[build]
+  # Static single-page site — no build step required.
+  command = "echo 'No build step required'"
+  publish = "."
+
+# Serve the site's page at the root URL.
+[[redirects]]
+  from = "/"
+  to = "/dmvfood.html"
+  status = 200
