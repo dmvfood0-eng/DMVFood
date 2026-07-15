@@ -65,6 +65,14 @@
   }
   .nav-cta:hover{background:var(--charcoal); color:var(--parchment);}
   .nav-menu-toggle{display:none;}
+  .nav-ig{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.03em; font-weight:500;
+    color:var(--parchment); background:var(--emerald); border:1px solid var(--emerald);
+    padding:8px 14px; border-radius:2px; transition:background .2s, transform .2s;
+  }
+  .nav-ig:hover{background:var(--gold); border-color:var(--gold); transform:translateY(-1px);}
+  @media (max-width:520px){ .nav-ig span{display:none;} }
 
   /* ---------- HERO ---------- */
   .hero{
@@ -182,58 +190,6 @@
     font-size:0.78rem; letter-spacing:0.04em; color:var(--burgundy); font-weight:500;
   }
 
-  /* ---------- GALLERY STRIP ---------- */
-  .gallery-strip{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:36px;
-  }
-  .gallery-item{position:relative; overflow:hidden;}
-  .gallery-item img{
-    width:100%; height:220px; object-fit:cover; display:block;
-    transition:transform .3s ease;
-  }
-  .gallery-item:hover img{transform:scale(1.04);}
-  .gallery-item span{
-    position:absolute; left:0; right:0; bottom:0; padding:10px 12px;
-    background:linear-gradient(0deg, rgba(18,33,28,0.82), rgba(18,33,28,0));
-    color:var(--parchment); font-family:'JetBrains Mono', monospace;
-    font-size:0.68rem; letter-spacing:0.05em;
-  }
-  @media (max-width:820px){
-    .gallery-strip{grid-template-columns:1fr;}
-  }
-
-  /* ---------- VAULT / ARCHIVE ---------- */
-  .filters{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
-  .filter-btn{
-    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.05em;
-    text-transform:uppercase; padding:7px 14px; border:1px solid var(--line);
-    background:transparent; cursor:pointer; color:var(--charcoal); transition:all .2s;
-  }
-  .filter-btn.active, .filter-btn:hover{background:var(--charcoal); color:var(--parchment); border-color:var(--charcoal);}
-
-  .vault-list{margin-top:12px;}
-  .vault-row{
-    display:grid; grid-template-columns:100px 1fr auto; gap:24px; align-items:center;
-    padding:24px 0; border-bottom:1px solid var(--line);
-    transition:opacity .2s;
-  }
-  .vault-row.hidden{display:none;}
-  .vault-date{
-    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--muted);
-  }
-  .vault-main h4{
-    font-family:'Fraunces', serif; font-weight:500; font-size:1.18rem; margin-bottom:5px;
-  }
-  .vault-main .meta{
-    font-size:0.82rem; color:var(--muted); display:flex; gap:12px; align-items:center; flex-wrap:wrap;
-  }
-  .vault-main .meta .dot{width:3px; height:3px; background:var(--muted); border-radius:50%; display:inline-block;}
-  .vault-arrow{
-    font-family:'Fraunces', serif; font-style:italic; font-size:1.4rem; color:var(--gold);
-    opacity:0; transition:opacity .2s, transform .2s; transform:translateX(-6px);
-  }
-  .vault-row:hover .vault-arrow{opacity:1; transform:translateX(0);}
-
   /* ---------- ABOUT STRIP ---------- */
   .about-strip{
     background:var(--emerald); color:var(--parchment); padding:80px 0;
@@ -297,8 +253,6 @@
     nav ul{display:none;}
     .picks-grid{grid-template-columns:1fr;}
     .about-inner{grid-template-columns:1fr;}
-    .vault-row{grid-template-columns:1fr; gap:6px;}
-    .vault-arrow{display:none;}
     .hero-stats{gap:28px;}
   }
 </style>
@@ -311,11 +265,16 @@
     <nav>
       <ul>
         <li><a href="#picks">Editor's Picks</a></li>
-        <li><a href="#vault">The Vault</a></li>
         <li><a href="#about">About</a></li>
       </ul>
     </nav>
-    <a href="#newsletter" class="nav-cta">Get the Digest</a>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="https://www.instagram.com/dmvfood?igsh=eDJmb2p2amxycXhm&utm_source=qr" target="_blank" rel="noopener" class="nav-ig">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @dmvfood
+      </a>
+      <a href="#newsletter" class="nav-cta">Get the Digest</a>
+    </div>
   </div>
 </header>
 
@@ -406,58 +365,6 @@
       </article>
 
     </div>
-
-    <div class="gallery-strip">
-      <div class="gallery-item"><img src="images/two-nine-nigiri.jpeg" alt="Nigiri at Two Nine Omakase"><span>Two Nine — nigiri, à la carte counter</span></div>
-      <div class="gallery-item"><img src="images/two-nine-dessert.jpeg" alt="Dessert course at Two Nine Omakase"><span>Two Nine — dessert course</span></div>
-      <div class="gallery-item"><img src="images/two-nine-storefront.jpeg" alt="Two Nine Omakase storefront in Georgetown"><span>Two Nine — the alleyway entrance</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="vault" style="padding-top:0;">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <div class="kicker">The Archive</div>
-        <h2>The Vault</h2>
-      </div>
-      <p>Every gem, filed by state. Add each new post here as you publish it.</p>
-    </div>
-
-    <div class="filters" id="filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="dc">DC</button>
-      <button class="filter-btn" data-filter="md">Maryland</button>
-      <button class="filter-btn" data-filter="va">Virginia</button>
-    </div>
-
-    <div class="vault-list" id="vaultList">
-      <div class="vault-row" data-region="dc">
-        <div class="vault-date">Jul 10</div>
-        <div class="vault-main">
-          <h4>Two Nine Omakase</h4>
-          <div class="meta"><span>Georgetown, DC</span><span class="dot"></span><span>Japanese Omakase</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">5.0</span></span></div>
-        </div>
-        <div class="vault-arrow">→</div>
-      </div>
-      <div class="vault-row" data-region="dc">
-        <div class="vault-date">Jul 03</div>
-        <div class="vault-main">
-          <h4>Seven Reasons</h4>
-          <div class="meta"><span>Downtown, DC</span><span class="dot"></span><span>Latin American</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.5</span></span></div>
-        </div>
-        <div class="vault-arrow">→</div>
-      </div>
-      <div class="vault-row" data-region="md">
-        <div class="vault-date">Jun 28</div>
-        <div class="vault-main">
-          <h4>Chadol Korean BBQ</h4>
-          <div class="meta"><span>Rockville, MD</span><span class="dot"></span><span>Korean BBQ</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.0</span></span></div>
-        </div>
-        <div class="vault-arrow">→</div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -474,7 +381,7 @@
       </div>
       <div class="criteria-item">
         <div class="criteria-num">02</div>
-        <div><h5>Independent, always</h5><p>Meals are paid for. No comps, no swapped coverage for a discount.</p></div>
+        <div><h5>Independent, always</h5><p>Every meal is paid for out of pocket.</p></div>
       </div>
       <div class="criteria-item">
         <div class="criteria-num">03</div>
@@ -506,7 +413,6 @@
       <div class="footer-col">
         <h6>Explore</h6>
         <a href="#picks">Editor's Picks</a>
-        <a href="#vault">The Vault</a>
         <a href="#about">About</a>
       </div>
       <div class="footer-col">
@@ -523,6 +429,10 @@
   <div class="wrap footer-bottom">
     <span>© 2026 DMVFood</span>
     <span>District · Maryland · Virginia</span>
+    <a href="https://www.instagram.com/dmvfood?igsh=eDJmb2p2amxycXhm&utm_source=qr" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; color:rgba(246,241,230,0.6); transition:color .2s;" onmouseover="this.style.color='#f6f1e6'" onmouseout="this.style.color='rgba(246,241,230,0.6)'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @dmvfood
+    </a>
   </div>
 </footer>
 
@@ -546,19 +456,6 @@
     field.appendChild(el);
   });
 
-  // Vault filters
-  const buttons = document.querySelectorAll('.filter-btn');
-  const rows = document.querySelectorAll('.vault-row');
-  buttons.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      buttons.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      rows.forEach(r=>{
-        r.classList.toggle('hidden', f !== 'all' && r.dataset.region !== f);
-      });
-    });
-  });
 </script>
 
 </body>
