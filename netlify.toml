@@ -1,0 +1,11 @@
+[build]
+  # Static HTML site — no build step or tooling required.
+  command = "echo 'No build step required for this static site'"
+  # Serve files from the repository root.
+  publish = "."
+
+# Serve the main page at the site root.
+[[redirects]]
+  from = "/"
+  to = "/dmvfood.html"
+  status = 200
