@@ -1,0 +1,8 @@
+[build]
+  command = "echo 'Static site: no build step required'"
+  publish = "."
+
+[[redirects]]
+  from = "/"
+  to = "/dmvfood.html"
+  status = 200
