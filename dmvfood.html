@@ -182,6 +182,26 @@
     font-size:0.78rem; letter-spacing:0.04em; color:var(--burgundy); font-weight:500;
   }
 
+  /* ---------- GALLERY STRIP ---------- */
+  .gallery-strip{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:36px;
+  }
+  .gallery-item{position:relative; overflow:hidden;}
+  .gallery-item img{
+    width:100%; height:220px; object-fit:cover; display:block;
+    transition:transform .3s ease;
+  }
+  .gallery-item:hover img{transform:scale(1.04);}
+  .gallery-item span{
+    position:absolute; left:0; right:0; bottom:0; padding:10px 12px;
+    background:linear-gradient(0deg, rgba(18,33,28,0.82), rgba(18,33,28,0));
+    color:var(--parchment); font-family:'JetBrains Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.05em;
+  }
+  @media (max-width:820px){
+    .gallery-strip{grid-template-columns:1fr;}
+  }
+
   /* ---------- VAULT / ARCHIVE ---------- */
   .filters{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
   .filter-btn{
@@ -320,37 +340,17 @@
         <div class="kicker">Currently Obsessed</div>
         <h2>Editor's Picks</h2>
       </div>
-      <p>Three spots earning repeat visits this month — replace with your own finds and photography.</p>
+      <p>Three spots earning repeat visits this month across the district.</p>
     </div>
 
     <div class="picks-grid">
 
       <article class="pick-card">
-        <div class="pick-media"><span class="tag">Shaw, DC</span></div>
+        <div class="pick-media" style="background-image:url('images/two-nine-storefront.jpeg'); background-size:cover; background-position:center;"><span class="tag">Georgetown, DC</span></div>
         <div class="pick-body">
-          <div class="pick-neighborhood">Natural Wine · Small Plates</div>
-          <h3>Sample Post — Wine Bar Name</h3>
-          <p>Placeholder write-up. Describe the room, the pour list, and the one dish worth ordering twice. Keep it to three or four sentences of real, specific detail.</p>
-          <div class="pick-footer">
-            <span class="gem-rating" aria-label="4.5 out of 5 gems">
-              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
-              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
-              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
-              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
-              <svg viewBox="0 0 24 24" class="gem-empty"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
-              <span class="score">4.5</span>
-            </span>
-            <span class="read">Read the write-up →</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="pick-card">
-        <div class="pick-media"><span class="tag">Falls Church, VA</span></div>
-        <div class="pick-body">
-          <div class="pick-neighborhood">Family-Run · Vietnamese</div>
-          <h3>Sample Post — Restaurant Name</h3>
-          <p>Placeholder write-up. Note who's running the kitchen, how long they've been at it, and what makes their version different from everyone else's.</p>
+          <div class="pick-neighborhood">Japanese Omakase · Sushi Cafe</div>
+          <h3>Two Nine Omakase</h3>
+          <p>Tucked down an alleyway off Wisconsin Ave, Two Nine runs a daytime chirashi cafe with a kaiseki-inspired omakase counter upstairs. Chef Zach Ramos sources much of the seafood straight from Toyosu Market in Tokyo, and the nigiri menu changes daily. Ring the bell — they'll walk you up.</p>
           <div class="pick-footer">
             <span class="gem-rating" aria-label="5 out of 5 gems">
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
@@ -366,11 +366,31 @@
       </article>
 
       <article class="pick-card">
-        <div class="pick-media"><span class="tag">Silver Spring, MD</span></div>
+        <div class="pick-media"><span class="tag">Downtown, DC</span></div>
         <div class="pick-body">
-          <div class="pick-neighborhood">Bakery · Morning Only</div>
-          <h3>Sample Post — Bakery Name</h3>
-          <p>Placeholder write-up. Mention what sells out first, the best hour to arrive, and one item that isn't on the menu board.</p>
+          <div class="pick-neighborhood">Michelin-Recognized · Latin American</div>
+          <h3>Seven Reasons</h3>
+          <p>Chef Enrique Limardo's flagship pulls from Venezuela, Peru, and the Caribbean, plating dishes as bold in color as they are in flavor. The patacón piña colada and the cacao-basil crumble dessert are the two hardest things on the menu to skip.</p>
+          <div class="pick-footer">
+            <span class="gem-rating" aria-label="4.5 out of 5 gems">
+              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+              <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+              <svg viewBox="0 0 24 24" class="gem-empty"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+              <span class="score">4.5</span>
+            </span>
+            <span class="read">Read the write-up →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="pick-card">
+        <div class="pick-media"><span class="tag">Rockville, MD</span></div>
+        <div class="pick-body">
+          <div class="pick-neighborhood">Korean BBQ · Premium Cuts</div>
+          <h3>Chadol Korean BBQ</h3>
+          <p>The original Chadol location, and still the standard-bearer — Certified Angus beef and top-2%-grade Duroc pork cooked tableside on built-in grills. The brisket and galbi are the two orders regulars won't let you skip.</p>
           <div class="pick-footer">
             <span class="gem-rating" aria-label="4 out of 5 gems">
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
@@ -386,6 +406,12 @@
       </article>
 
     </div>
+
+    <div class="gallery-strip">
+      <div class="gallery-item"><img src="images/two-nine-nigiri.jpeg" alt="Nigiri at Two Nine Omakase"><span>Two Nine — nigiri, à la carte counter</span></div>
+      <div class="gallery-item"><img src="images/two-nine-dessert.jpeg" alt="Dessert course at Two Nine Omakase"><span>Two Nine — dessert course</span></div>
+      <div class="gallery-item"><img src="images/two-nine-storefront.jpeg" alt="Two Nine Omakase storefront in Georgetown"><span>Two Nine — the alleyway entrance</span></div>
+    </div>
   </div>
 </section>
 
@@ -396,7 +422,7 @@
         <div class="kicker">The Archive</div>
         <h2>The Vault</h2>
       </div>
-      <p>Every gem, filed by state. Swap these rows for your real posts as you publish them.</p>
+      <p>Every gem, filed by state. Add each new post here as you publish it.</p>
     </div>
 
     <div class="filters" id="filters">
@@ -407,51 +433,27 @@
     </div>
 
     <div class="vault-list" id="vaultList">
-      <div class="vault-row" data-region="va">
-        <div class="vault-date">Jul 08</div>
+      <div class="vault-row" data-region="dc">
+        <div class="vault-date">Jul 10</div>
         <div class="vault-main">
-          <h4>Sample Post — Pupusería Name</h4>
-          <div class="meta"><span>Annandale, VA</span><span class="dot"></span><span>Salvadoran</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.5</span></span></div>
+          <h4>Two Nine Omakase</h4>
+          <div class="meta"><span>Georgetown, DC</span><span class="dot"></span><span>Japanese Omakase</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">5.0</span></span></div>
         </div>
         <div class="vault-arrow">→</div>
       </div>
       <div class="vault-row" data-region="dc">
-        <div class="vault-date">Jun 30</div>
+        <div class="vault-date">Jul 03</div>
         <div class="vault-main">
-          <h4>Sample Post — Noodle Shop Name</h4>
-          <div class="meta"><span>Chinatown, DC</span><span class="dot"></span><span>Hand-Pulled Noodles</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.0</span></span></div>
+          <h4>Seven Reasons</h4>
+          <div class="meta"><span>Downtown, DC</span><span class="dot"></span><span>Latin American</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.5</span></span></div>
         </div>
         <div class="vault-arrow">→</div>
       </div>
       <div class="vault-row" data-region="md">
-        <div class="vault-date">Jun 21</div>
+        <div class="vault-date">Jun 28</div>
         <div class="vault-main">
-          <h4>Sample Post — Crab Shack Name</h4>
-          <div class="meta"><span>Deale, MD</span><span class="dot"></span><span>Seafood</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">5.0</span></span></div>
-        </div>
-        <div class="vault-arrow">→</div>
-      </div>
-      <div class="vault-row" data-region="va">
-        <div class="vault-date">Jun 12</div>
-        <div class="vault-main">
-          <h4>Sample Post — Coffee Roaster Name</h4>
-          <div class="meta"><span>Del Ray, Alexandria</span><span class="dot"></span><span>Coffee &amp; Pastry</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.5</span></span></div>
-        </div>
-        <div class="vault-arrow">→</div>
-      </div>
-      <div class="vault-row" data-region="dc">
-        <div class="vault-date">Jun 03</div>
-        <div class="vault-main">
-          <h4>Sample Post — Ethiopian Kitchen Name</h4>
-          <div class="meta"><span>U Street, DC</span><span class="dot"></span><span>Ethiopian</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.5</span></span></div>
-        </div>
-        <div class="vault-arrow">→</div>
-      </div>
-      <div class="vault-row" data-region="md">
-        <div class="vault-date">May 27</div>
-        <div class="vault-main">
-          <h4>Sample Post — Diner Name</h4>
-          <div class="meta"><span>Wheaton, MD</span><span class="dot"></span><span>All-Day Breakfast</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.0</span></span></div>
+          <h4>Chadol Korean BBQ</h4>
+          <div class="meta"><span>Rockville, MD</span><span class="dot"></span><span>Korean BBQ</span><span class="dot"></span><span class="gem-rating"><svg viewBox="0 0 24 24" class="gem-fill" style="width:11px;height:11px"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg><span class="score">4.0</span></span></div>
         </div>
         <div class="vault-arrow">→</div>
       </div>
@@ -509,7 +511,7 @@
       </div>
       <div class="footer-col">
         <h6>Follow</h6>
-        <a href="#">Instagram</a>
+        <a href="https://www.instagram.com/dmvfood?igsh=eDJmb2p2amxycXhm&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
         <a href="#">TikTok</a>
       </div>
       <div class="footer-col">
