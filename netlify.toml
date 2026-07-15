@@ -1,0 +1,12 @@
+[build]
+  # This is a static site (a single HTML page plus image assets) with no
+  # compile step, so the build command is a no-op. Defining it here overrides
+  # the invalid "build dmvfood" command previously set in the Netlify UI.
+  command = "echo 'No build step required for this static site'"
+  publish = "."
+
+# Serve the DMVFood page at the site root.
+[[redirects]]
+  from = "/"
+  to = "/dmvfood.html"
+  status = 200
