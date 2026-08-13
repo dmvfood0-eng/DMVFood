@@ -228,6 +228,7 @@
     color:var(--burgundy); font-weight:500;
   }
   .newsletter .note{margin-top:16px; font-size:0.78rem; color:var(--muted);}
+  .beehiiv-embed-wrap{max-width:440px; margin:0 auto;}
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -397,11 +398,10 @@
   <div class="wrap">
     <div class="kicker">Once a Week, No More</div>
     <h2>One new gem in your inbox, every Thursday morning.</h2>
-    <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed ✓';">
-      <input type="email" placeholder="you@email.com" required>
-      <button type="submit">Subscribe →</button>
-    </form>
-    <p class="note">No spam. Unsubscribe from any issue in one click.</p>
+    <div class="beehiiv-embed-wrap">
+      <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="5c6d0c6e-42fa-4e35-ade7-c08c3a424f6c"></script>
+    </div>
+    <p class="note">Powered by beehiiv. No spam. Unsubscribe from any issue in one click.</p>
   </div>
 </section>
 
