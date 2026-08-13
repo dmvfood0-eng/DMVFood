@@ -187,8 +187,9 @@
     margin-top:18px; padding-top:14px; border-top:1px solid var(--line);
   }
   .pick-footer .read{
-    font-size:0.78rem; letter-spacing:0.04em; color:var(--burgundy); font-weight:500;
+    font-size:0.78rem; letter-spacing:0.04em; color:var(--burgundy); font-weight:500; transition:opacity .2s;
   }
+  .pick-footer a.read:hover{opacity:0.7;}
 
   /* ---------- ABOUT STRIP ---------- */
   .about-strip{
@@ -304,6 +305,12 @@
 
     <div class="picks-grid">
 
+    <!--
+      LINK A WRITE-UP: once you've built the page (copy writeups/two-nine-omakase.html
+      as your template), change the matching <span class="read"> below to:
+      <a class="read" href="writeups/YOUR-FILE-NAME.html">Read the write-up →</a>
+    -->
+
       <article class="pick-card">
         <div class="pick-media" style="background-image:url('images/two-nine-omakase.jpeg'); background-size:cover; background-position:center;"><span class="tag">Georgetown, DC</span></div>
         <div class="pick-body">
@@ -317,9 +324,7 @@
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
-              <span class="score">5.0</span>
-            </span>
-            <span class="read">Read the write-up →</span>
+            <a class="read" href="writeups/two-nine-omakase.html">Read the write-up →</a>
           </div>
         </div>
       </article>
