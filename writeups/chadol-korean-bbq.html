@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chadol Korean BBQ — DMVFood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12211c; --parchment:#f6f1e6; --parchment-dim:#efe8d8;
+  --emerald:#1f4b3d; --emerald-light:#2e6b57; --gold:#b98a3d; --gold-light:#d9b877;
+  --burgundy:#6b2737; --charcoal:#2a2724; --muted:#7a7364; --line:rgba(42,39,36,0.14);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--parchment); color:var(--charcoal); font-family:'Inter', sans-serif; -webkit-font-smoothing:antialiased;}
+a{color:inherit; text-decoration:none;}
+.wrap{max-width:760px; margin:0 auto; padding:0 28px;}
+
+header.nav{position:sticky; top:0; z-index:50; background:rgba(246,241,230,0.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+.nav-inner{max-width:1120px; margin:0 auto; padding:18px 28px; display:flex; align-items:center; justify-content:space-between;}
+.wordmark{font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem;}
+.wordmark span{color:var(--gold);}
+.back-link{font-size:0.82rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--charcoal); opacity:0.75; transition:opacity .2s;}
+.back-link:hover{opacity:1;}
+
+.article-hero{
+  background:linear-gradient(135deg, var(--emerald) 0%, var(--ink) 100%);
+  height:340px; position:relative; display:flex; align-items:flex-end;
+  background-image:url('../images/chadol-korean-bbq.jpeg'); background-size:cover; background-position:center;
+}
+.article-hero::after{content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(18,33,28,0.85), rgba(18,33,28,0.1));}
+.article-hero-content{position:relative; z-index:2; padding:40px 0 36px; width:100%;}
+.tag{
+  font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--parchment); background:rgba(0,0,0,0.3); padding:5px 10px; border:1px solid rgba(246,241,230,0.3);
+}
+.article-hero h1{
+  font-family:'Fraunces', serif; font-weight:500; font-size:clamp(2rem,4.5vw,2.8rem);
+  color:var(--parchment); margin-top:14px; max-width:600px;
+}
+
+.article-body{padding:56px 0 96px;}
+.article-meta{
+  display:flex; align-items:center; gap:16px; margin-bottom:36px; padding-bottom:24px;
+  border-bottom:1px solid var(--line); flex-wrap:wrap;
+}
+.gem-rating{display:inline-flex; gap:4px; align-items:center;}
+.gem-rating svg{width:15px; height:15px;}
+.gem-fill{fill:var(--gold);}
+.gem-empty{fill:none; stroke:var(--muted); stroke-width:1.2;}
+.gem-rating .score{font-family:'JetBrains Mono', monospace; font-size:0.78rem; color:var(--muted); margin-left:6px;}
+.meta-neighborhood{font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted);}
+
+.article-body p{font-size:1.02rem; line-height:1.75; color:#3a352d; margin-bottom:22px;}
+.article-body h3{
+  font-family:'Fraunces', serif; font-weight:500; font-size:1.4rem; margin:38px 0 14px;
+}
+.pull-quote{
+  font-family:'Fraunces', serif; font-style:italic; font-size:1.3rem; line-height:1.5;
+  color:var(--emerald); border-left:3px solid var(--gold); padding-left:24px; margin:34px 0;
+}
+
+.cta-strip{
+  background:var(--parchment-dim); border:1px solid var(--line); padding:32px; margin-top:48px;
+  text-align:center;
+}
+.cta-strip p{margin-bottom:16px; font-size:0.95rem; color:var(--muted);}
+.cta-btn{
+  display:inline-flex; align-items:center; gap:8px; background:var(--charcoal); color:var(--parchment);
+  padding:13px 26px; font-family:'JetBrains Mono', monospace; font-size:0.76rem; letter-spacing:0.08em;
+  text-transform:uppercase; transition:background .2s;
+}
+.cta-btn:hover{background:var(--burgundy);}
+
+footer{background:var(--ink); color:rgba(246,241,230,0.6); padding:40px 0; text-align:center; font-size:0.8rem;}
+footer a{color:rgba(246,241,230,0.8);}
+
+@media (max-width:600px){
+  .article-hero{height:260px;}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+<div class="nav-inner">
+<a href="../dmvfood.html" class="wordmark">DMV<span>Food</span></a>
+<a href="../dmvfood.html#picks" class="back-link">← Back to Picks</a>
+</div>
+</header>
+
+<section class="article-hero">
+<div class="wrap article-hero-content">
+<span class="tag">Rockville, MD</span>
+<h1>Chadol Korean BBQ</h1>
+</div>
+</section>
+
+<article class="article-body">
+<div class="wrap">
+
+<div class="article-meta">
+<span class="gem-rating" aria-label="4 out of 5 gems">
+<svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+<svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+<svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+<svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+<svg viewBox="0 0 24 24" class="gem-empty"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+<span class="score">4.0</span>
+</span>
+<span class="meta-neighborhood">Korean BBQ · Premium Cuts</span>
+</div>
+
+<p>The original Chadol location, and still the standard-bearer. Every table comes with a built-in grill, and the cuts here start a notch above what you'll find elsewhere — Certified Angus beef and top-2%-grade Duroc pork, cooked tableside exactly how you like it.</p>
+
+<h3>The Setting</h3>
+<p>Add your own detail here — what it's like walking in, the energy of the room, how the tableside grilling actually plays out over the course of a meal.</p>
+
+<h3>What to Order</h3>
+<p>The brisket and the galbi are the two orders regulars won't let you skip. Pair them with the usual spread of banchan, and don't rush the grill — letting the fat render slowly is where the flavor actually comes from.</p>
+
+<h3>The Verdict</h3>
+<p>4 out of 5 gems. A reliable, high-quality Korean BBQ spot that earns its reputation as the original — premium cuts, done right, without needing to dress it up.</p>
+
+<div class="cta-strip">
+<p>Grab a table and let the grill do the work.</p>
+<a class="cta-btn" href="https://www.instagram.com/dmvfood?igsh=eDJmb2p2amxycXhm&utm_source=qr" target="_blank" rel="noopener">See it on Instagram →</a>
+</div>
+
+</div>
+</article>
+
+<footer>
+<div class="wrap">
+<p>DMVFood · District · Maryland · Virginia</p>
+<p style="margin-top:8px;"><a href="mailto:dmvfood0@gmail.com">dmvfood0@gmail.com</a></p>
+</div>
+</footer>
+
+</body>
+</html>
