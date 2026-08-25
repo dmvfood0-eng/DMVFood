@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root{
     --ink:#12211c;
@@ -251,11 +253,157 @@
     font-size:0.76rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
   }
 
+  /* ---------- SURPRISE ME ---------- */
+  .surprise-btn{
+    margin-top:40px; display:inline-flex; align-items:center; gap:10px;
+    background:transparent; border:1px solid rgba(217,184,119,0.55); color:var(--gold-light);
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem; letter-spacing:0.06em;
+    text-transform:uppercase; padding:12px 20px; border-radius:2px; cursor:pointer;
+    transition:background .2s, color .2s, transform .2s;
+  }
+  .surprise-btn:hover{background:var(--gold-light); color:var(--ink); transform:translateY(-1px);}
+  .surprise-btn svg{flex-shrink:0;}
+
+  /* ---------- GEM FACET BREAKDOWN ---------- */
+  .facet-toggle{
+    margin-top:14px; background:none; border:none; padding:0; cursor:pointer;
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--emerald-light); display:inline-flex; align-items:center; gap:6px;
+  }
+  .facet-toggle:hover{color:var(--burgundy);}
+  .facet-toggle .chev{display:inline-block; transition:transform .25s ease; font-size:0.9em;}
+  .facet-toggle[aria-expanded="true"] .chev{transform:rotate(180deg);}
+  .facet-drawer{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .facet-drawer.open{max-height:220px; margin-top:14px;}
+  .facet-row{display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .facet-row .fname{
+    width:82px; flex-shrink:0; font-family:'JetBrains Mono', monospace; font-size:0.66rem;
+    letter-spacing:0.05em; text-transform:uppercase; color:var(--muted);
+  }
+  .facet-track{flex:1; height:5px; background:var(--line); border-radius:3px; overflow:hidden;}
+  .facet-fill{height:100%; background:linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius:3px;}
+  .facet-row .fscore{
+    width:26px; text-align:right; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--muted);
+  }
+
+  /* ---------- DIRECTORY ---------- */
+  .dir-controls{
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-bottom:12px;
+  }
+  .dir-search{
+    display:flex; align-items:center; gap:10px; flex:1 1 260px;
+    border:1px solid var(--line); background:var(--parchment-dim); padding:10px 14px;
+    color:var(--muted);
+  }
+  .dir-search input{
+    border:none; background:transparent; outline:none; flex:1; font-family:'Inter', sans-serif;
+    font-size:0.9rem; color:var(--charcoal);
+  }
+  .dir-search input::placeholder{color:var(--muted);}
+  .dir-chips{display:flex; gap:8px;}
+  .chip{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;
+    border:1px solid var(--line); background:transparent; color:var(--charcoal); padding:9px 14px;
+    border-radius:20px; cursor:pointer; transition:background .2s, color .2s, border-color .2s;
+  }
+  .chip:hover{border-color:var(--emerald);}
+  .chip.active{background:var(--emerald); border-color:var(--emerald); color:var(--parchment);}
+  .dir-controls select{
+    font-family:'Inter', sans-serif; font-size:0.85rem; color:var(--charcoal);
+    border:1px solid var(--line); background:var(--parchment-dim); padding:10px 12px; cursor:pointer;
+  }
+  .dir-count{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.05em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:24px;
+  }
+  .dir-grid{grid-template-columns:repeat(3, 1fr);}
+  .dir-card{position:relative;}
+  .dir-card.sample::before{
+    content:'Sample — swap for a real visit'; position:absolute; top:12px; right:12px; z-index:2;
+    background:rgba(42,39,36,0.72); color:var(--parchment); font-family:'JetBrains Mono', monospace;
+    font-size:0.6rem; letter-spacing:0.04em; text-transform:uppercase; padding:4px 8px; border-radius:2px;
+  }
+  .dir-media{
+    height:150px; position:relative; display:flex; align-items:flex-end; padding:16px;
+    background:linear-gradient(135deg, var(--emerald) 0%, var(--ink) 100%); background-size:cover; background-position:center;
+  }
+  .dir-media .initial{
+    position:absolute; bottom:2px; right:14px; font-family:'Fraunces', serif; font-size:2.8rem;
+    color:rgba(246,241,230,0.22); font-weight:600;
+  }
+  .dir-price{
+    font-family:'JetBrains Mono', monospace; font-size:0.66rem; color:var(--parchment);
+    background:rgba(0,0,0,0.28); border:1px solid rgba(246,241,230,0.3); padding:5px 10px; margin-left:auto;
+  }
+  .dir-empty{
+    text-align:center; color:var(--muted); padding:40px 0; font-size:0.92rem; font-style:italic;
+  }
+  .pulse-highlight{animation:pulseHighlight 1.6s ease 2;}
+  @keyframes pulseHighlight{
+    0%,100%{box-shadow:0 0 0 0 rgba(185,138,61,0);}
+    50%{box-shadow:0 0 0 6px rgba(185,138,61,0.35);}
+  }
+
   @media (max-width:820px){
     nav ul{display:none;}
     .picks-grid{grid-template-columns:1fr;}
+    .dir-grid{grid-template-columns:1fr;}
     .about-inner{grid-template-columns:1fr;}
     .hero-stats{gap:28px;}
+    .dir-controls{flex-direction:column; align-items:stretch;}
+    .dir-controls select{width:100%;}
+  }
+  /* ---------- MAP ---------- */
+  #gemMap{
+    height:440px; width:100%; border:1px solid var(--line); filter:saturate(0.85);
+  }
+  .leaflet-tile-pane{filter:sepia(18%) saturate(75%) brightness(0.97);}
+  .gem-popup{font-family:'Inter', sans-serif;}
+  .gem-popup h4{font-family:'Fraunces', serif; font-size:1.02rem; margin-bottom:4px; color:var(--charcoal);}
+  .gem-popup .meta{font-size:0.76rem; color:var(--muted); margin-bottom:8px;}
+  .gem-popup a{font-size:0.78rem; color:var(--burgundy); font-weight:500;}
+  .leaflet-popup-content-wrapper{background:var(--parchment); border-radius:2px;}
+  .leaflet-popup-tip{background:var(--parchment);}
+
+  /* ---------- CRAVING QUIZ ---------- */
+  .quiz-card{
+    max-width:640px; margin:0 auto; background:var(--parchment-dim); border:1px solid var(--line);
+    padding:48px 40px; text-align:center;
+  }
+  .quiz-q{font-family:'Fraunces', serif; font-size:1.5rem; font-weight:450; margin-bottom:26px;}
+  .quiz-options{display:flex; flex-wrap:wrap; gap:12px; justify-content:center;}
+  .quiz-opt{
+    font-family:'Inter', sans-serif; font-size:0.9rem; color:var(--charcoal);
+    background:var(--parchment); border:1px solid var(--line); padding:14px 20px; cursor:pointer;
+    transition:border-color .2s, background .2s, transform .2s;
+  }
+  .quiz-opt:hover{border-color:var(--emerald); background:#fff; transform:translateY(-2px);}
+  .quiz-progress{display:flex; gap:8px; justify-content:center; margin-top:36px;}
+  .quiz-progress[hidden]{display:none;}
+  .quiz-progress .dot{width:7px; height:7px; border-radius:50%; background:var(--line);}
+  .quiz-progress .dot.active{background:var(--gold);}
+  .quiz-result{text-align:left; margin-top:8px;}
+  .quiz-result .result-eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:10px; text-align:center;
+  }
+  .quiz-result h3{font-family:'Fraunces', serif; font-size:1.6rem; text-align:center; margin-bottom:6px;}
+  .quiz-result .result-meta{text-align:center; color:var(--muted); font-size:0.85rem; margin-bottom:18px;}
+  .quiz-result p.result-blurb{font-size:0.92rem; line-height:1.6; color:#4d473e; text-align:center; margin-bottom:18px;}
+  .quiz-result .result-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:18px;}
+  .result-actions a, .result-actions button{
+    font-family:'JetBrains Mono', monospace; font-size:0.74rem; letter-spacing:0.05em; text-transform:uppercase;
+    padding:11px 18px; border:1px solid var(--charcoal); cursor:pointer; background:none; color:var(--charcoal);
+    transition:background .2s, color .2s;
+  }
+  .result-actions a:hover, .result-actions button:hover{background:var(--charcoal); color:var(--parchment);}
+  .quiz-restart{
+    display:block; margin:22px auto 0; background:none; border:none; color:var(--muted);
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; text-decoration:underline; cursor:pointer;
+  }
+
+  @media (max-width:600px){
+    .quiz-card{padding:36px 22px;}
   }
 </style>
 </head>
@@ -267,6 +415,9 @@
     <nav>
       <ul>
         <li><a href="#picks">Editor's Picks</a></li>
+        <li><a href="#quiz">Find My Gem</a></li>
+        <li><a href="#map">Map</a></li>
+        <li><a href="#directory">Directory</a></li>
         <li><a href="#about">About</a></li>
       </ul>
     </nav>
@@ -290,6 +441,10 @@
       <div><div class="num">3</div><div class="label">States Covered</div></div>
       <div><div class="num">1×</div><div class="label">New Find, Weekly</div></div>
     </div>
+    <button class="surprise-btn" id="surpriseBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+      Feed me something random
+    </button>
   </div>
 </section>
 
@@ -324,8 +479,11 @@
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
               <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+            </span>
             <a class="read" href="writeups/two-nine-omakase.html">Read the write-up →</a>
           </div>
+          <button class="facet-toggle" aria-expanded="false" aria-controls="facets-two-nine">See the gem breakdown <span class="chev">▾</span></button>
+          <div class="facet-drawer" id="facets-two-nine" data-facets='{"taste":5,"value":4,"vibe":5,"service":5,"uniqueness":5}'></div>
         </div>
       </article>
 
@@ -346,6 +504,8 @@
             </span>
             <a class="read" href="writeups/seven-reasons.html">Read the write-up →</a>
           </div>
+          <button class="facet-toggle" aria-expanded="false" aria-controls="facets-seven-reasons">See the gem breakdown <span class="chev">▾</span></button>
+          <div class="facet-drawer" id="facets-seven-reasons" data-facets='{"taste":5,"value":4,"vibe":5,"service":4,"uniqueness":4.5}'></div>
         </div>
       </article>
 
@@ -366,11 +526,119 @@
             </span>
             <a class="read" href="writeups/chadol-korean-bbq.html">Read the write-up →</a>
           </div>
-          <img src="images/chadol-bbq.jpeg" alt="Chadol Korean BBQ tableside grill" style="width:100%; height:140px; object-fit:cover; margin-top:16px;">
+          <button class="facet-toggle" aria-expanded="false" aria-controls="facets-chadol">See the gem breakdown <span class="chev">▾</span></button>
+          <div class="facet-drawer" id="facets-chadol" data-facets='{"taste":5,"value":4,"vibe":4,"service":3,"uniqueness":4}'></div>
         </div>
       </article>
 
     </div>
+  </div>
+</section>
+
+<section class="section quiz-section" id="quiz">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Not Sure What You Want</div>
+        <h2>Find Your Next Gem</h2>
+      </div>
+      <p>Three questions. We'll match you to one spot from the directory — facets included.</p>
+    </div>
+
+    <div class="quiz-card">
+      <div class="quiz-step" data-step="1">
+        <div class="quiz-q">What are you craving?</div>
+        <div class="quiz-options" data-key="mood">
+          <button class="quiz-opt" data-value="comfort">Comfort &amp; smoke</button>
+          <button class="quiz-opt" data-value="adventurous">Something adventurous</button>
+          <button class="quiz-opt" data-value="fresh">Fresh &amp; light</button>
+          <button class="quiz-opt" data-value="sushi">Sushi &amp; Japanese</button>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="2" hidden>
+        <div class="quiz-q">Where are you headed?</div>
+        <div class="quiz-options" data-key="area">
+          <button class="quiz-opt" data-value="All">Wherever's good</button>
+          <button class="quiz-opt" data-value="DC">DC</button>
+          <button class="quiz-opt" data-value="MD">Maryland</button>
+          <button class="quiz-opt" data-value="VA">Virginia</button>
+        </div>
+      </div>
+      <div class="quiz-step" data-step="3" hidden>
+        <div class="quiz-q">What's the budget?</div>
+        <div class="quiz-options" data-key="budget">
+          <button class="quiz-opt" data-value="cheap">Keep it cheap</button>
+          <button class="quiz-opt" data-value="mid">Middle of the road</button>
+          <button class="quiz-opt" data-value="splurge">Treat myself</button>
+        </div>
+      </div>
+
+      <div class="quiz-progress">
+        <span class="dot active" data-dot="1"></span>
+        <span class="dot" data-dot="2"></span>
+        <span class="dot" data-dot="3"></span>
+      </div>
+
+      <div class="quiz-result" id="quizResult" hidden></div>
+      <button class="quiz-restart" id="quizRestart" hidden>Start over</button>
+    </div>
+  </div>
+</section>
+
+<section class="section map-section" id="map">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">Every Pin, One Map</div>
+        <h2>See It All at Once</h2>
+      </div>
+      <p>Every gem in the directory, plotted. Click a pin for the rundown.</p>
+    </div>
+    <div id="gemMap"></div>
+  </div>
+</section>
+
+<section class="section directory" id="directory">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="kicker">The Full Map</div>
+        <h2>Explore the Directory</h2>
+      </div>
+      <p>Every gem so far, searchable by neighborhood, cuisine, and price — the one-stop shop for "where should we eat."</p>
+    </div>
+
+    <div class="dir-controls">
+      <div class="dir-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="dirSearch" placeholder="Search by name, neighborhood, or cuisine…" aria-label="Search gems">
+      </div>
+      <div class="dir-chips" id="areaChips" role="group" aria-label="Filter by area">
+        <button class="chip active" data-area="All">All</button>
+        <button class="chip" data-area="DC">DC</button>
+        <button class="chip" data-area="MD">MD</button>
+        <button class="chip" data-area="VA">VA</button>
+      </div>
+      <select id="cuisineFilter" aria-label="Filter by cuisine">
+        <option value="All">All cuisines</option>
+      </select>
+      <select id="priceFilter" aria-label="Filter by price">
+        <option value="All">Any price</option>
+        <option value="1">$</option>
+        <option value="2">$$</option>
+        <option value="3">$$$</option>
+        <option value="4">$$$$</option>
+      </select>
+      <select id="sortFilter" aria-label="Sort gems">
+        <option value="rating">Highest rated</option>
+        <option value="az">Name A–Z</option>
+        <option value="neighborhood">Neighborhood A–Z</option>
+      </select>
+    </div>
+
+    <div class="dir-count" id="dirCount"></div>
+    <div class="picks-grid dir-grid" id="directoryGrid"></div>
+    <p class="dir-empty" id="dirEmpty" hidden>No gems match those filters yet — try clearing one.</p>
   </div>
 </section>
 
@@ -404,6 +672,7 @@
   <div class="wrap">
     <div class="kicker">Once a Week, No More</div>
     <h2>One new gem in your inbox, every Thursday morning.</h2>
+    <p class="note" id="newsletterStats" style="margin-bottom:22px;"></p>
     <div class="beehiiv-embed-wrap">
       <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="5c6d0c6e-42fa-4e35-ade7-c08c3a424f6c"></script>
     </div>
@@ -459,6 +728,348 @@
     field.appendChild(el);
   });
 
+  // ---------- GEM DIRECTORY DATA ----------
+  // Add your own visited spots here. Each entry drives one card in the
+  // "Explore the Directory" section below, including its gem-facet breakdown.
+  const GEMS = [
+    { id:'two-nine', name:'Two Nine Omakase', neighborhood:'Georgetown', area:'DC', cuisine:'Japanese', price:4, lat:38.9076, lng:-77.0723,
+      image:'images/two-nine-omakase.jpeg', tag:'Sushi Cafe',
+      blurb:'Daytime chirashi cafe with a kaiseki-inspired omakase counter upstairs. Ring the bell — they\u2019ll walk you up.',
+      link:'writeups/two-nine-omakase.html', facets:{taste:5,value:4,vibe:5,service:5,uniqueness:5}, sample:false },
+    { id:'seven-reasons', name:'Seven Reasons', neighborhood:'Downtown', area:'DC', cuisine:'Latin American', price:4, lat:38.9037, lng:-77.0292,
+      image:'images/seven-reasons.png', tag:'Michelin-Recognized',
+      blurb:'Chef Enrique Limardo pulls from Venezuela, Peru, and the Caribbean, plating dishes as bold in color as flavor.',
+      link:'writeups/seven-reasons.html', facets:{taste:5,value:4,vibe:5,service:4,uniqueness:4.5}, sample:false },
+    { id:'chadol', name:'Chadol Korean BBQ', neighborhood:'Rockville', area:'MD', cuisine:'Korean BBQ', price:3, lat:39.084, lng:-77.1528,
+      image:'images/chadol-bbq.jpeg', tag:'Premium Cuts',
+      blurb:'Certified Angus beef and top-2%-grade Duroc pork, cooked tableside. The brisket and galbi are unmissable.',
+      link:'writeups/chadol-korean-bbq.html', facets:{taste:5,value:4,vibe:4,service:3,uniqueness:4}, sample:false },
+    { id:'sample-taqueria', name:'Give me a spot to review next', neighborhood:'Mount Pleasant', area:'DC', cuisine:'Mexican', price:1, lat:38.9339, lng:-77.0396,
+      image:null, tag:'Placeholder',
+      blurb:'where should i go next? DM or email me!',
+      link:'#', facets:{taste:4,value:5,vibe:3,service:3,uniqueness:3}, sample:true },
+    { id:'sample-crabshack', name:'Give me a spot to review next', neighborhood:'Annapolis', area:'MD', cuisine:'Seafood', price:2, lat:38.9784, lng:-76.4922,
+      image:null, tag:'Placeholder',
+      blurb:'where should i go next? DM or email me!',
+      link:'#', facets:{taste:4,value:4,vibe:4,service:3,uniqueness:4}, sample:true },
+    { id:'sample-pho', name:'Give me a spot to review next', neighborhood:'Falls Church', area:'VA', cuisine:'Vietnamese', price:1, lat:38.8823, lng:-77.1711,
+      image:null, tag:'Placeholder',
+      blurb:'where should i go next? DM or email me!',
+      link:'#', facets:{taste:5,value:5,vibe:3,service:3,uniqueness:3}, sample:true },
+    { id:'sample-smokehouse', name:'Give me a spot to review next', neighborhood:'Silver Spring', area:'MD', cuisine:'BBQ', price:2, lat:38.9907, lng:-77.0261,
+      image:null, tag:'Placeholder',
+      blurb:'where should i go next? DM or email me!',
+      link:'#', facets:{taste:4,value:4,vibe:4,service:4,uniqueness:4}, sample:true },
+    { id:'sample-addis', name:'Give me a spot to review next', neighborhood:'Shaw', area:'DC', cuisine:'Ethiopian', price:2, lat:38.9126, lng:-77.0225,
+      image:null, tag:'Placeholder',
+      blurb:'where should i go next? DM or email me!',
+      link:'#', facets:{taste:5,value:4,vibe:4,service:4,uniqueness:5}, sample:true },
+    { id:'sample-blueridge', name:'Give me a spot to review next', neighborhood:'Arlington', area:'VA', cuisine:'Farm-to-Table', price:3, lat:38.8816, lng:-77.091,
+      image:null, tag:'Placeholder',
+      blurb:'where should i go next? DM or email me!',
+      link:'#', facets:{taste:4,value:3,vibe:5,service:4,uniqueness:4}, sample:true },
+    { id:'sushi-rock', name:'Sushi Rock', neighborhood:'Clarendon', area:'VA', cuisine:'Japanese', price:2, lat:38.8878, lng:-77.0910,
+      image:null, tag:'Fresh-Flown from Japan',
+      blurb:'Fish sourced straight from Japan, with a kitchen team that trained at Le Cordon Bleu and cut its teeth at spots like the Hyatt — technique-driven food dressed up as a casual sushi spot. The happy hour alone (rotating specialty drinks, snack-sized bites that don\u2019t feel like an afterthought) is worth building your evening around.',
+      link:'writeups/sushi-rock.html', facets:{taste:5,value:4,vibe:4,service:4,uniqueness:3}, sample:false },
+    { id:'inn-at-little-washington', name:'The Inn at Little Washington', neighborhood:'Little Washington', area:'VA', cuisine:'Contemporary American', price:4, lat:38.7118, lng:-78.1094,
+      image:null, tag:'Michelin 2-Star',
+      blurb:'Patrick O\u2019Connell\u2019s two-Michelin-star dining room out in Rappahannock County. Every plate reads like a work of art — refined flavors, immaculate presentation, and a dining experience that plays out more like performance art than a meal.',
+      link:'writeups/inn-at-little-washington.html', facets:{taste:5,value:5,vibe:5,service:5,uniqueness:5}, sample:false }
+  ];
+
+  function gemScore(f){
+    return ((f.taste+f.value+f.vibe+f.service+f.uniqueness)/5);
+  }
+  function gemStarsSVG(score){
+    const full = Math.floor(score);
+    const half = score % 1 >= 0.25 && score % 1 < 0.75;
+    const total = 5;
+    let out = '';
+    for(let i=0;i<total;i++){
+      const cls = i < full ? 'gem-fill' : (i === full && half ? 'gem-fill' : 'gem-empty');
+      out += `<svg viewBox="0 0 24 24" class="${cls}"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>`;
+    }
+    return out;
+  }
+  function facetDrawerHTML(facets){
+    const labels = [['taste','Taste'],['value','Value'],['vibe','Vibe'],['service','Service'],['uniqueness','Unique']];
+    return labels.map(([key,label])=>{
+      const val = facets[key];
+      return `<div class="facet-row"><span class="fname">${label}</span><span class="facet-track"><span class="facet-fill" style="width:${(val/5)*100}%"></span></span><span class="fscore">${val}</span></div>`;
+    }).join('');
+  }
+
+  // Fill in facet-drawer contents for the static Editor's Picks cards
+  document.querySelectorAll('.facet-drawer[data-facets]').forEach(drawer=>{
+    const facets = JSON.parse(drawer.getAttribute('data-facets'));
+    drawer.innerHTML = facetDrawerHTML(facets);
+  });
+
+  // Toggle any facet drawer (delegated so it works for cards added later)
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.facet-toggle');
+    if(!btn) return;
+    const drawer = document.getElementById(btn.getAttribute('aria-controls'));
+    const open = drawer.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // ---------- DIRECTORY RENDER / FILTER ----------
+  const grid = document.getElementById('directoryGrid');
+  const dirCount = document.getElementById('dirCount');
+  const dirEmpty = document.getElementById('dirEmpty');
+  const searchInput = document.getElementById('dirSearch');
+  const cuisineFilter = document.getElementById('cuisineFilter');
+  const priceFilter = document.getElementById('priceFilter');
+  const sortFilter = document.getElementById('sortFilter');
+  const areaChips = document.querySelectorAll('#areaChips .chip');
+  let activeArea = 'All';
+
+  // Populate cuisine dropdown from data
+  [...new Set(GEMS.map(g=>g.cuisine))].sort().forEach(c=>{
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    cuisineFilter.appendChild(opt);
+  });
+
+  function renderCard(g){
+    const score = gemScore(g.facets);
+    const mediaStyle = g.image ? `background-image:url('${g.image}');` : '';
+    const initial = g.image ? '' : `<span class="initial">${g.name.replace('Sample: ','')[0]}</span>`;
+    return `
+      <article class="pick-card dir-card${g.sample ? ' sample' : ''}" id="dircard-${g.id}">
+        <div class="dir-media" style="${mediaStyle}">
+          <span class="tag">${g.neighborhood}, ${g.area}</span>
+          ${initial}
+        </div>
+        <div class="pick-body">
+          <div class="pick-neighborhood">${g.cuisine} · ${g.tag}</div>
+          <h3>${g.name}</h3>
+          <p>${g.blurb}</p>
+          <div class="pick-footer">
+            <span class="gem-rating" aria-label="${score.toFixed(1)} out of 5 gems">
+              ${gemStarsSVG(score)}
+              <span class="score">${score.toFixed(1)}</span>
+            </span>
+            <span class="dir-price">${'$'.repeat(g.price)}</span>
+          </div>
+          <button class="facet-toggle" aria-expanded="false" aria-controls="dirfacets-${g.id}">See the gem breakdown <span class="chev">▾</span></button>
+          <div class="facet-drawer" id="dirfacets-${g.id}">${facetDrawerHTML(g.facets)}</div>
+        </div>
+      </article>`;
+  }
+
+  function renderDirectory(){
+    const q = searchInput.value.trim().toLowerCase();
+    const cuisine = cuisineFilter.value;
+    const price = priceFilter.value;
+    const sort = sortFilter.value;
+
+    let list = GEMS.filter(g=>{
+      if(activeArea !== 'All' && g.area !== activeArea) return false;
+      if(cuisine !== 'All' && g.cuisine !== cuisine) return false;
+      if(price !== 'All' && g.price !== Number(price)) return false;
+      if(q && !(g.name.toLowerCase().includes(q) || g.neighborhood.toLowerCase().includes(q) || g.cuisine.toLowerCase().includes(q))) return false;
+      return true;
+    });
+
+    if(sort === 'rating') list.sort((a,b)=> gemScore(b.facets) - gemScore(a.facets));
+    else if(sort === 'az') list.sort((a,b)=> a.name.localeCompare(b.name));
+    else if(sort === 'neighborhood') list.sort((a,b)=> a.neighborhood.localeCompare(b.neighborhood));
+
+    grid.innerHTML = list.map(renderCard).join('');
+    dirCount.textContent = `${list.length} gem${list.length===1?'':'s'} shown`;
+    dirEmpty.hidden = list.length !== 0;
+  }
+
+  searchInput.addEventListener('input', renderDirectory);
+  cuisineFilter.addEventListener('change', renderDirectory);
+  priceFilter.addEventListener('change', renderDirectory);
+  sortFilter.addEventListener('change', renderDirectory);
+  areaChips.forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      areaChips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      activeArea = chip.getAttribute('data-area');
+      renderDirectory();
+    });
+  });
+
+  renderDirectory();
+
+  // ---------- SURPRISE ME ----------
+  document.getElementById('surpriseBtn').addEventListener('click', ()=>{
+    const pick = GEMS[Math.floor(Math.random() * GEMS.length)];
+    // Reset filters so the pick is guaranteed to be visible
+    activeArea = 'All';
+    areaChips.forEach(c=>c.classList.toggle('active', c.getAttribute('data-area')==='All'));
+    searchInput.value = '';
+    cuisineFilter.value = 'All';
+    priceFilter.value = 'All';
+    renderDirectory();
+
+    const target = document.getElementById(`dircard-${pick.id}`);
+    if(!target) return;
+    target.scrollIntoView({behavior:'smooth', block:'center'});
+    target.classList.add('pulse-highlight');
+    const drawer = document.getElementById(`dirfacets-${pick.id}`);
+    const toggle = target.querySelector('.facet-toggle');
+    drawer.classList.add('open');
+    toggle.setAttribute('aria-expanded','true');
+    setTimeout(()=> target.classList.remove('pulse-highlight'), 3200);
+  });
+
+  // ---------- NEWSLETTER STAT (pulled from the same GEMS data) ----------
+  const areasCovered = new Set(GEMS.map(g=>g.area)).size;
+  document.getElementById('newsletterStats').textContent =
+    `The directory currently tracks ${GEMS.length} gems across ${areasCovered} areas — every issue adds one more.`;
+
+  // ---------- REAL MAP ----------
+  (function initMap(){
+    const mapEl = document.getElementById('gemMap');
+    if(!mapEl || typeof L === 'undefined') return;
+    const map = L.map('gemMap', { scrollWheelZoom:false }).setView([38.94, -77.02], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:'&copy; OpenStreetMap contributors',
+      maxZoom:18
+    }).addTo(map);
+
+    const gemIcon = L.divIcon({
+      className:'gem-marker',
+      html:'<svg width="22" height="22" viewBox="0 0 24 24" fill="#b98a3d" stroke="#12211c" stroke-width="1"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>',
+      iconSize:[22,22], iconAnchor:[11,11], popupAnchor:[0,-10]
+    });
+
+    GEMS.forEach(g=>{
+      if(!g.lat || !g.lng) return;
+      const marker = L.marker([g.lat, g.lng], { icon: gemIcon }).addTo(map);
+      const score = gemScore(g.facets).toFixed(1);
+      marker.bindPopup(`
+        <div class="gem-popup">
+          <h4>${g.name}</h4>
+          <div class="meta">${g.neighborhood}, ${g.area} · ${g.cuisine} · ${score} gems</div>
+          <a href="#directory" data-jump="${g.id}">See in directory →</a>
+        </div>
+      `);
+      marker.on('popupopen', ()=>{
+        const link = document.querySelector(`.gem-popup a[data-jump="${g.id}"]`);
+        if(link){
+          link.addEventListener('click', (e)=>{
+            e.preventDefault();
+            document.getElementById('directory').scrollIntoView({behavior:'smooth'});
+            setTimeout(()=>{
+              const card = document.getElementById(`dircard-${g.id}`);
+              if(card){
+                card.scrollIntoView({behavior:'smooth', block:'center'});
+                card.classList.add('pulse-highlight');
+                setTimeout(()=>card.classList.remove('pulse-highlight'), 3200);
+              }
+            }, 400);
+          });
+        }
+      });
+    });
+  })();
+
+  // ---------- CRAVING QUIZ ----------
+  (function initQuiz(){
+    const steps = [...document.querySelectorAll('.quiz-step')];
+    const dots = [...document.querySelectorAll('.quiz-progress .dot')];
+    const resultBox = document.getElementById('quizResult');
+    const progressBox = document.querySelector('.quiz-progress');
+    const restartBtn = document.getElementById('quizRestart');
+    const answers = {};
+
+    const moodMap = {
+      comfort:['Korean BBQ','BBQ'],
+      adventurous:['Ethiopian','Latin American','Vietnamese','Mexican'],
+      fresh:['Seafood','Farm-to-Table'],
+      sushi:['Japanese']
+    };
+    const budgetRange = {
+      cheap:[1,2],
+      mid:[2,3],
+      splurge:[3,4]
+    };
+
+    function showStep(n){
+      steps.forEach(s => s.hidden = Number(s.getAttribute('data-step')) !== n);
+      dots.forEach(d => d.classList.toggle('active', Number(d.getAttribute('data-dot')) === n));
+    }
+
+    document.querySelectorAll('.quiz-opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const group = btn.closest('.quiz-options');
+        const key = group.getAttribute('data-key');
+        answers[key] = btn.getAttribute('data-value');
+        const step = Number(btn.closest('.quiz-step').getAttribute('data-step'));
+        if(step < 3){
+          showStep(step + 1);
+        } else {
+          revealResult();
+        }
+      });
+    });
+
+    function revealResult(){
+      const cuisines = moodMap[answers.mood] || [];
+      const [lo, hi] = budgetRange[answers.budget] || [1,4];
+      let pool = GEMS.filter(g => answers.area === 'All' || g.area === answers.area);
+      if(pool.length === 0) pool = GEMS;
+
+      let scored = pool.map(g=>{
+        let s = gemScore(g.facets) * 0.6;
+        if(cuisines.includes(g.cuisine)) s += 3;
+        if(g.price >= lo && g.price <= hi) s += 1.5;
+        return { gem:g, s };
+      }).sort((a,b)=> b.s - a.s);
+
+      const winner = scored[0].gem;
+      const score = gemScore(winner.facets).toFixed(1);
+
+      steps.forEach(s => s.hidden = true);
+      progressBox.hidden = true;
+      resultBox.hidden = false;
+      resultBox.innerHTML = `
+        <div class="result-eyebrow">Your match</div>
+        <h3>${winner.name}</h3>
+        <div class="result-meta">${winner.neighborhood}, ${winner.area} · ${winner.cuisine} · ${'$'.repeat(winner.price)} · ${score} gems</div>
+        <p class="result-blurb">${winner.blurb}</p>
+        <div class="result-actions">
+          <a href="#directory" id="quizJump">See full breakdown</a>
+          <a href="#newsletter">Get more like this →</a>
+        </div>
+      `;
+      restartBtn.hidden = false;
+
+      document.getElementById('quizJump').addEventListener('click', (e)=>{
+        e.preventDefault();
+        document.getElementById('directory').scrollIntoView({behavior:'smooth'});
+        setTimeout(()=>{
+          const card = document.getElementById(`dircard-${winner.id}`);
+          if(card){
+            card.scrollIntoView({behavior:'smooth', block:'center'});
+            card.classList.add('pulse-highlight');
+            const drawer = document.getElementById(`dirfacets-${winner.id}`);
+            const toggle = card.querySelector('.facet-toggle');
+            drawer.classList.add('open');
+            toggle.setAttribute('aria-expanded','true');
+            setTimeout(()=>card.classList.remove('pulse-highlight'), 3200);
+          }
+        }, 400);
+      });
+    }
+
+    restartBtn.addEventListener('click', ()=>{
+      resultBox.hidden = true;
+      restartBtn.hidden = true;
+      progressBox.hidden = false;
+      showStep(1);
+    });
+
+    showStep(1);
+  })();
 </script>
 
 </body>
