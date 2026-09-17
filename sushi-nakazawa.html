@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sushi Nakazawa DC — DMVFood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12211c;
+    --parchment:#f6f1e6;
+    --parchment-dim:#efe8d8;
+    --emerald:#1f4b3d;
+    --emerald-light:#2e6b57;
+    --gold:#b98a3d;
+    --gold-light:#d9b877;
+    --burgundy:#6b2737;
+    --charcoal:#2a2724;
+    --muted:#7a7364;
+    --line:rgba(42,39,36,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--parchment);
+    color:var(--charcoal);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+  .wrap-narrow{max-width:760px; margin:0 auto; padding:0 28px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,241,230,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto; padding:18px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .wordmark{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem;
+    letter-spacing:0.01em;
+  }
+  .wordmark span{color:var(--gold);}
+  nav ul{list-style:none; display:flex; gap:32px;}
+  nav a{
+    font-size:0.82rem; text-transform:uppercase; letter-spacing:0.09em;
+    color:var(--charcoal); opacity:0.75; transition:opacity .2s;
+  }
+  nav a:hover{opacity:1;}
+  .nav-ig{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.03em; font-weight:500;
+    color:var(--parchment); background:var(--emerald); border:1px solid var(--emerald);
+    padding:8px 14px; border-radius:2px; transition:background .2s, transform .2s;
+  }
+  .nav-ig:hover{background:var(--gold); border-color:var(--gold); transform:translateY(-1px);}
+  @media (max-width:520px){ .nav-ig span{display:none;} nav ul{display:none;} }
+
+  /* ---------- GEM RATING ---------- */
+  .gem-rating{display:inline-flex; gap:4px; align-items:center;}
+  .gem-rating svg{width:14px; height:14px;}
+  .gem-fill{fill:var(--gold);}
+  .gem-empty{fill:none; stroke:var(--muted); stroke-width:1.2;}
+  .gem-rating .score{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--muted);
+    margin-left:6px;
+  }
+
+  /* ---------- ARTICLE HERO ---------- */
+  .article-hero{
+    position:relative;
+    background:linear-gradient(160deg, var(--ink) 0%, var(--emerald) 62%, var(--emerald-light) 100%);
+    color:var(--parchment);
+    padding:90px 0 70px;
+  }
+  .breadcrumb{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:rgba(246,241,230,0.65); margin-bottom:26px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .breadcrumb a{color:rgba(246,241,230,0.85); transition:color .2s;}
+  .breadcrumb a:hover{color:var(--gold-light);}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:0.74rem;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-light);
+    margin-bottom:20px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:''; width:22px; height:1px; background:var(--gold-light); display:inline-block;
+  }
+  .article-hero h1{
+    font-family:'Fraunces', serif; font-weight:450; font-style:italic;
+    font-size:clamp(2.3rem, 5vw, 3.6rem);
+    line-height:1.08; max-width:760px; letter-spacing:-0.01em;
+  }
+  .article-hero .sub{
+    margin-top:18px; font-size:1rem; color:rgba(246,241,230,0.78);
+  }
+  .meta-row{
+    display:flex; gap:32px; flex-wrap:wrap; margin-top:44px;
+    padding-top:28px; border-top:1px solid rgba(246,241,230,0.18);
+  }
+  .meta-item .label{
+    font-family:'JetBrains Mono', monospace; font-size:0.66rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:rgba(246,241,230,0.55); margin-bottom:6px;
+  }
+  .meta-item .val{font-family:'Fraunces', serif; font-size:1.05rem;}
+  .meta-item .gem-rating .score{color:rgba(246,241,230,0.7);}
+
+  /* ---------- ARTICLE BODY ---------- */
+  .article-body{padding:80px 0;}
+  .article-body p{
+    font-size:1.02rem; line-height:1.85; color:#3a352e; margin-bottom:26px;
+  }
+  .article-body h2{
+    font-family:'Fraunces', serif; font-weight:500; font-size:1.5rem;
+    margin:52px 0 18px;
+  }
+  .pull{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:450;
+    font-size:1.3rem; line-height:1.5; color:var(--emerald);
+    border-left:2px solid var(--gold); padding-left:24px; margin:44px 0;
+  }
+  .gallery{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin:36px 0;
+  }
+  .gallery img{
+    width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:2px;
+  }
+  .gallery figcaption{
+    font-family:'JetBrains Mono', monospace; font-size:0.66rem; letter-spacing:0.05em;
+    color:var(--muted); margin-top:6px; text-transform:uppercase;
+  }
+  .verdict{
+    background:var(--parchment-dim); border:1px solid var(--line);
+    padding:30px 32px; margin-top:56px;
+  }
+  .verdict .kicker{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:12px;
+  }
+  .verdict-row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+
+  @media (max-width:820px){
+    .gallery{grid-template-columns:repeat(2, 1fr);}
+    .meta-row{gap:22px;}
+  }
+  @media (max-width:520px){
+    .gallery{grid-template-columns:1fr 1fr;}
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--ink); color:rgba(246,241,230,0.6); padding:56px 0 32px;
+  }
+  .footer-inner{
+    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;
+  }
+  .footer-inner .wordmark{color:var(--parchment);}
+  .footer-cols{display:flex; gap:64px; flex-wrap:wrap;}
+  .footer-col h6{
+    font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--gold-light); margin-bottom:14px;
+  }
+  .footer-col a{display:block; font-size:0.86rem; margin-bottom:9px; color:rgba(246,241,230,0.7); transition:color .2s;}
+  .footer-col a:hover{color:var(--parchment);}
+  .footer-bottom{
+    margin-top:48px; padding-top:24px; border-top:1px solid rgba(246,241,230,0.12);
+    font-size:0.76rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="wordmark">DMV<span>Food</span></a>
+    <nav>
+      <ul>
+        <li><a href="../index.html#picks">Editor's Picks</a></li>
+        <li><a href="../index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="https://www.instagram.com/dmvfood?igsh=eDJmb2p2amxycXhm&utm_source=qr" target="_blank" rel="noopener" class="nav-ig">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @dmvfood
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="article-hero">
+  <div class="wrap-narrow">
+    <div class="breadcrumb"><a href="../index.html">DMVFood</a> <span>/</span> <a href="../index.html#picks">Write-Ups</a> <span>/</span> <span>Sushi Nakazawa</span></div>
+    <div class="eyebrow">Penn Quarter, DC</div>
+    <h1>Sushi Nakazawa brings its omakase counter to the district — and it earns the seat.</h1>
+    <p class="sub">A tuna-forward tasting that builds course by course, from lean akami to fatty otoro, with a seared piece and a citrus-bright white fish to break the richness.</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="label">Rating</div>
+        <div class="val">
+          <span class="gem-rating" aria-label="5 out of 5 gems">
+            <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+            <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+            <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+            <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+            <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+            <span class="score">5.0</span>
+          </span>
+        </div>
+      </div>
+      <div class="meta-item"><div class="label">Cuisine</div><div class="val">Japanese Omakase</div></div>
+      <div class="meta-item"><div class="label">Price</div><div class="val">$$$$</div></div>
+      <div class="meta-item"><div class="label">Neighborhood</div><div class="val">Penn Quarter, DC</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap-narrow">
+
+    <p>Sushi Nakazawa's DC counter runs a nigiri progression the way it should be run: quietly, in order, letting the fish do the talking. No pageantry, no narration for narration's sake — just a chef working through a sequence built to show range, one cut at a time.</p>
+
+    <h2>The tuna arc</h2>
+    <p>The counter opens on lean akami — clean, almost mineral, the kind of cut that tells you immediately whether the rest of the omakase is going to be worth the seat. It builds from there: chutoro next, softer and marbled, then into otoro, the fattiest cut, practically dissolving before you can chew it. Watching the color shift plate to plate, from deep red to a pale, marbled pink, is half the point.</p>
+
+    <div class="gallery">
+      <figure><img src="../images/sushi-nakazawa-1.jpeg" alt="Akami tuna nigiri"><figcaption>Akami</figcaption></figure>
+      <figure><img src="../images/sushi-nakazawa-2.jpeg" alt="Chutoro tuna nigiri"><figcaption>Chutoro</figcaption></figure>
+      <figure><img src="../images/sushi-nakazawa-3.jpeg" alt="Otoro tuna nigiri"><figcaption>Otoro</figcaption></figure>
+    </div>
+
+    <p class="pull">The tuna alone would be worth the counter seat — everything after it is a bonus.</p>
+
+    <h2>Beyond the tuna</h2>
+    <p>A lightly seared piece breaks up the run of raw cuts — a quick torch over the surface, just enough to render a thin layer of fat without cooking through, laid over a smear of something sharp underneath. Further down the board, a delicate white fish arrives dusted with citrus zest, a clean counterpoint after the richness of the tuna courses.</p>
+
+    <div class="gallery">
+      <figure><img src="../images/sushi-nakazawa-4.jpeg" alt="Seared nigiri course"><figcaption>Seared course</figcaption></figure>
+      <figure><img src="../images/sushi-nakazawa-5.jpeg" alt="White fish nigiri with citrus"><figcaption>White fish, citrus zest</figcaption></figure>
+      <figure><img src="../images/sushi-nakazawa-6.jpeg" alt="Nigiri lineup on ceramic plate"><figcaption>The lineup</figcaption></figure>
+    </div>
+
+    <div class="verdict">
+      <div class="kicker">The Verdict</div>
+      <div class="verdict-row">
+        <p style="margin:0; max-width:520px;">A splurge-worthy counter that earns its price point on fish quality alone. Book ahead — the seats go fast.</p>
+        <span class="gem-rating" aria-label="5 out of 5 gems">
+          <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+          <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+          <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+          <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+          <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+          <span class="score">5.0</span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <a href="../index.html" class="wordmark">DMV<span style="color:var(--gold-light)">Food</span></a>
+      <p style="margin-top:14px; max-width:220px; font-size:0.82rem; line-height:1.6;">Dispatches from the district's best-kept tables.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h6>Follow</h6>
+        <a href="https://www.instagram.com/dmvfood?igsh=eDJmb2p2amxycXhm&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://youtube.com/@dmv_food?si=sbcDC6D2Oojp86Oz" target="_blank" rel="noopener">YouTube</a>
+      </div>
+      <div class="footer-col">
+        <h6>Contact</h6>
+        <a href="mailto:dmvfood0@gmail.com">dmvfood0@gmail.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 DMVFood</span>
+    <span>District · Maryland · Virginia</span>
+  </div>
+</footer>
+
+</body>
+</html>
