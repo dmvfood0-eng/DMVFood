@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sulod — DMVFood Write-Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12211c;
+    --parchment:#f6f1e6;
+    --parchment-dim:#efe8d8;
+    --emerald:#1f4b3d;
+    --emerald-light:#2e6b57;
+    --gold:#b98a3d;
+    --gold-light:#d9b877;
+    --burgundy:#6b2737;
+    --charcoal:#2a2724;
+    --muted:#7a7364;
+    --line:rgba(42,39,36,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--parchment);
+    color:var(--charcoal);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 28px;}
+
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,241,230,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto; padding:18px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .wordmark{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem;
+    letter-spacing:0.01em;
+  }
+  .wordmark span{color:var(--gold);}
+  .back-link{
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--emerald-light); display:flex; align-items:center; gap:6px;
+  }
+  .back-link:hover{color:var(--burgundy);}
+
+  .hero{
+    background:linear-gradient(160deg, var(--ink) 0%, var(--emerald) 62%, var(--emerald-light) 100%);
+    color:var(--parchment);
+    padding:88px 0 64px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:0.74rem;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-light);
+    margin-bottom:18px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:''; width:22px; height:1px; background:var(--gold-light); display:inline-block;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif; font-weight:600; font-style:italic;
+    font-size:clamp(2.4rem, 6vw, 3.6rem);
+    line-height:1.05; letter-spacing:-0.01em;
+  }
+  .hero .loc{
+    margin-top:16px; font-size:0.95rem; color:rgba(246,241,230,0.75);
+    font-family:'JetBrains Mono', monospace; letter-spacing:0.02em;
+  }
+
+  .gem-rating{display:inline-flex; gap:4px; align-items:center; margin-top:24px;}
+  .gem-rating svg{width:18px; height:18px;}
+  .gem-fill{fill:var(--gold-light);}
+  .gem-empty{fill:none; stroke:rgba(246,241,230,0.4); stroke-width:1.2;}
+  .gem-rating .score{
+    font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:rgba(246,241,230,0.75);
+    margin-left:8px;
+  }
+
+  main{padding:64px 0 40px;}
+  .lede{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:450;
+    font-size:1.3rem; line-height:1.55; color:var(--charcoal);
+    margin-bottom:44px; padding-bottom:36px; border-bottom:1px solid var(--line);
+  }
+  h2{
+    font-family:'Fraunces', serif; font-weight:500; font-size:1.5rem;
+    color:var(--emerald); margin:40px 0 14px;
+  }
+  p{font-size:1rem; line-height:1.75; color:#3f3a33; margin-bottom:2px;}
+
+  .verdict{
+    background:var(--parchment-dim); border-left:3px solid var(--gold);
+    padding:28px 32px; margin-top:48px;
+  }
+  .verdict h2{margin-top:0; color:var(--emerald);}
+  .verdict .final-score{
+    margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:0.85rem;
+    color:var(--muted); display:flex; align-items:center; gap:10px;
+  }
+
+  .facet-breakdown{margin-top:44px;}
+  .facet-breakdown h3{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:18px;
+  }
+  .facet-row{display:flex; align-items:center; gap:14px; margin-bottom:12px;}
+  .facet-row .fname{
+    width:96px; flex-shrink:0; font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.05em; text-transform:uppercase; color:var(--muted);
+  }
+  .facet-track{flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden;}
+  .facet-fill{height:100%; background:linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius:3px;}
+  .facet-row .fscore{
+    width:30px; text-align:right; font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--muted);
+  }
+
+  footer{
+    background:var(--ink); color:rgba(246,241,230,0.6); padding:40px 0;
+    text-align:center; margin-top:64px;
+  }
+  footer a{color:var(--gold-light); font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.04em;}
+
+  @media (max-width:600px){
+    .nav-inner{padding:14px 20px;}
+    main{padding:44px 0 20px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="../dmvfood.html#top" class="wordmark">DMV<span>Food</span></a>
+    <a href="../dmvfood.html#directory" class="back-link">← Back to directory</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">H Street Corridor · Filipino x Creole</div>
+    <h1>Sulod</h1>
+    <div class="loc">📍 1250 H St NE (2nd floor), Washington, DC</div>
+    <span class="gem-rating" aria-label="4.2 out of 5 gems">
+      <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+      <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+      <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+      <svg viewBox="0 0 24 24" class="gem-fill"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+      <svg viewBox="0 0 24 24" class="gem-empty"><polygon points="12,2 22,9 18,22 6,22 2,9"/></svg>
+      <span class="score">4.2</span>
+    </span>
+  </div>
+</section>
+
+<main>
+  <div class="wrap">
+
+    <p class="lede">There's a new spot tucked upstairs on H Street and it's not playing it safe. Sulod (Tagalog for "inside") is a Filipino x Creole cocktail bar that landed in the old Hiraya/Kayu space, and from the name alone you already know the mission: build something rooted, not generic.</p>
+
+    <h2>The Vibe</h2>
+    <p>Neighborhood-first, no pretension. Sulod calls itself people-loving and it shows — the space is built to feel personal, like you're a regular by your second visit. Music's up, energy's up, but it's still a place you can actually talk to your table.</p>
+
+    <h2>The Drinks</h2>
+    <p>This is where it gets interesting. Cocktails pull from Filipino heritage and Creole influence at the same time — not a gimmick, an actual through-line. Every glass is doing double duty: flavor and story. Modern technique, but nothing over-engineered.</p>
+
+    <h2>The Food</h2>
+    <p>Street-style Filipino bites built to stand next to the cocktails, not behind them. Simple, bold, punch-above-their-weight plates — this is a kitchen that knows it's not the headliner but refuses to be an afterthought.</p>
+
+    <div class="verdict">
+      <h2>The Verdict</h2>
+      <p>Sulod isn't trying to be everything to everyone — it's trying to be <em>this</em>, really well. Filipino-Creole cocktail bars aren't exactly common on H Street, which makes this one worth the trip up the stairs on its own.</p>
+      <div class="final-score">4.2 / 5 gems — a strong first visit, docking a little only because we want to see the food menu expand.</div>
+    </div>
+
+    <div class="facet-breakdown">
+      <h3>The Gem Breakdown</h3>
+      <div class="facet-row"><span class="fname">Taste</span><span class="facet-track"><span class="facet-fill" style="width:80%"></span></span><span class="fscore">4</span></div>
+      <div class="facet-row"><span class="fname">Value</span><span class="facet-track"><span class="facet-fill" style="width:80%"></span></span><span class="fscore">4</span></div>
+      <div class="facet-row"><span class="fname">Vibe</span><span class="facet-track"><span class="facet-fill" style="width:90%"></span></span><span class="fscore">4.5</span></div>
+      <div class="facet-row"><span class="fname">Service</span><span class="facet-track"><span class="facet-fill" style="width:80%"></span></span><span class="fscore">4</span></div>
+      <div class="facet-row"><span class="fname">Unique</span><span class="facet-track"><span class="facet-fill" style="width:90%"></span></span><span class="fscore">4.5</span></div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <a href="../dmvfood.html#directory">← Back to the DMVFood directory</a>
+</footer>
+
+</body>
+</html>
